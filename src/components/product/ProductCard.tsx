@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { ProductCardProps } from '../../types/product';
-import { formatPrice } from '../../app/lib/data/utils';
+import { formatPrice } from '../../app/lib/utils';
 import { ProductImageIcon, StarIcon } from '../icons';
 
 const ProductCard = ({

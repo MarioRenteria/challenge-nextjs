@@ -1,5 +1,5 @@
 import { utils } from '../utils';
-import { Product } from '../definitions';
+import { Product } from '../data/definitions';
 
 // Mock products for testing
 const mockProducts: Product[] = [

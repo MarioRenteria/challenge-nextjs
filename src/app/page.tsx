@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { utils } from './lib/data/utils';
+import { utils } from './lib/utils';
 import { ProductCategory } from './lib/data/definitions';
 import { ProductGrid } from '../components/product';
 import { ProductCategoryChart } from '../components/charts';

@@ -8,7 +8,7 @@ import {
   ProductCategory,
   ProductsResponse,
   UsersResponse
-} from './definitions';
+} from './data/definitions';
 
 // ===== PRODUCT UTILITIES =====
 

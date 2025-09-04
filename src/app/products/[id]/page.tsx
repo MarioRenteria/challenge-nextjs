@@ -3,7 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAppSelector } from '../../../store/hooks';
-import { formatPrice } from '../../lib/data/utils';
+import { formatPrice } from '../../lib/utils';
 import { 
   ChevronLeft,
   Package,
