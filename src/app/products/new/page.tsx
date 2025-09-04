@@ -298,7 +298,7 @@ export default function NewProductPage() {
 
             <div className="mt-6 space-y-2">
               <label className="block text-sm font-semibold text-gray-700">
-                Tags (comma-separated)
+                Tags (comma-separated) (Optional)
               </label>
               <input
                 type="text"
