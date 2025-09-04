@@ -1,103 +1,267 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState } from 'react';
+import Link from 'next/link';
+import { utils } from './lib/utils';
+import { ProductCategory } from './lib/data/definitions';
+import { ProductGrid } from '../components/product';
+import { ProductCategoryChart } from '../components/charts';
+import { useAppSelector } from '../store/hooks';
+import { 
+  SearchIcon, 
+  PlusIcon, 
+  StatsIcon,
+  TrendingUpIcon,
+  PackageIcon,
+  CubeIcon
+} from '../components/icons';
+
+export default function Dashboard() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<ProductCategory | ''>('');
+  const [sortBy, setSortBy] = useState<'name' | 'price' | 'rating' | 'createdAt'>('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+  // Get products from Redux store
+  const products = useAppSelector((state) => state.products.products);
+
+  // Get unique categories
+  const categories = utils.getUniqueCategories(products);
+
+  // Filter and sort products
+  const filteredProducts = utils.filterProducts(products, {
+    search: searchTerm,
+    category: selectedCategory || undefined,
+  });
+
+  const sortedProducts = utils.sortProducts(filteredProducts, sortBy, sortOrder);
+
+  // Calculate stats
+  const totalValue = utils.calculateTotalValue(products);
+  const lowStockProducts = utils.getLowStockProducts(products, 20);
+  const activeProducts = utils.getProductsByStatus(products, 'active');
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="max-w-7xl mx-auto p-6">
+        {/* Header */}
+        <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="space-y-2">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
+              Product Dashboard
+            </h1>
+            <p className="text-gray-600 text-lg">Manage and monitor your product inventory</p>
+          </div>
+          <Link
+            href="/products/new"
+            className="group relative inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white transition-all duration-200 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            <PlusIcon 
+              className="mr-2 transition-transform group-hover:rotate-90" 
+              size="md"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            New Item
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+          <div className="group relative overflow-hidden bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 hover:border-blue-200/50">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative flex items-center">
+              <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
+                <CubeIcon 
+                  className="text-white" 
+                  size="md"
+                />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600 mb-1">Total Products</p>
+                <p className="text-3xl font-bold text-gray-900">{products.length}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="group relative overflow-hidden bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 hover:border-green-200/50">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative flex items-center">
+              <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg">
+                <TrendingUpIcon 
+                  className="text-white" 
+                  size="md"
+                />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600 mb-1">Active Products</p>
+                <p className="text-3xl font-bold text-gray-900">{activeProducts.length}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="group relative overflow-hidden bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 hover:border-yellow-200/50">
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative flex items-center">
+              <div className="p-3 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-xl shadow-lg">
+                <PackageIcon 
+                  className="text-white" 
+                  size="md"
+                />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600 mb-1">Low Stock</p>
+                <p className="text-3xl font-bold text-gray-900">{lowStockProducts.length}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="group relative overflow-hidden bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/20 hover:border-purple-200/50">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="relative flex items-center">
+              <div className="p-3 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl shadow-lg">
+                <StatsIcon 
+                  className="text-white" 
+                  size="md"
+                />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600 mb-1">Total Value</p>
+                <p className="text-3xl font-bold text-gray-900">{utils.formatPrice(totalValue)}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Analytics Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+          {/* Category Distribution Chart */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Products by Category</h3>
+              <p className="text-sm text-gray-600">Distribution of products across different categories</p>
+            </div>
+            <ProductCategoryChart products={products} type="pie" dataType="category" />
+          </div>
+
+          {/* Price Range Distribution */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Price Distribution</h3>
+              <p className="text-sm text-gray-600">Products grouped by price ranges</p>
+            </div>
+            <ProductCategoryChart products={products} type="pie" dataType="priceRange" />
+          </div>
+
+          {/* Stock Status */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Stock Status</h3>
+              <p className="text-sm text-gray-600">Inventory levels across all products</p>
+            </div>
+            <ProductCategoryChart products={products} type="pie" dataType="stockStatus" />
+          </div>
+        </div>
+
+        {/* Additional Analytics */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* Category Value Bar Chart */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Total Value by Category</h3>
+              <p className="text-sm text-gray-600">Total inventory value per category (price × stock)</p>
+            </div>
+            <ProductCategoryChart products={products} type="bar" dataType="categoryValue" />
+          </div>
+
+          {/* Category Overview Bar Chart */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Category Overview</h3>
+              <p className="text-sm text-gray-600">Product count comparison by category</p>
+            </div>
+            <ProductCategoryChart products={products} type="bar" dataType="category" />
+          </div>
+        </div>
+
+        {/* Filters and Search */}
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">Search</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <SearchIcon 
+                    className="text-gray-400" 
+                    size="md"
+                  />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">Category</label>
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value as ProductCategory | '')}
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium"
+              >
+                <option value="">All Categories</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">Sort By</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'rating' | 'createdAt')}
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium"
+              >
+                <option value="name">Name</option>
+                <option value="price">Price</option>
+                <option value="rating">Rating</option>
+                <option value="createdAt">Date Created</option>
+              </select>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-sm font-semibold text-gray-700">Order</label>
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium"
+              >
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Products Grid */}
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden">
+          <div className="px-6 py-5 border-b border-gray-200/50 bg-gradient-to-r from-gray-50 to-blue-50/30">
+            <h2 className="text-xl font-bold text-gray-900">
+              Products ({sortedProducts.length})
+            </h2>
+          </div>
+          <div className="p-6">
+            <ProductGrid
+              products={sortedProducts}
+              gridCols={4}
+              variant="default"
+              emptyMessage="Try adjusting your search or filter criteria."
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
