@@ -2,11 +2,6 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
-  formatCurrency, 
-  parseCurrencyToCents, 
-  applyCurrencyMask, 
-  isValidCurrency,
-  getNumericValue,
   CurrencyConfig,
   DEFAULT_CURRENCY_CONFIG
 } from '../../utils/currency';

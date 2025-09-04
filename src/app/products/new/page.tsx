@@ -6,6 +6,13 @@ import Link from 'next/link';
 import { CreateProductInput, ProductCategory } from '../../lib/data/definitions';
 import { generateCreateProductInput } from '../../lib/data/placeholders';
 import CurrencyInput from '../../../components/ui/CurrencyInput';
+import { 
+  ChevronLeft,
+  Info,
+  Ruler,
+  Loader2,
+  Plus
+} from 'lucide-react';
 
 export default function NewProductPage() {
   const router = useRouter();
@@ -82,9 +89,10 @@ export default function NewProductPage() {
               href="/"
               className="group p-3 hover:bg-white/70 backdrop-blur-sm rounded-xl transition-all duration-200 hover:shadow-lg border border-white/20"
             >
-              <svg className="w-6 h-6 text-gray-600 group-hover:text-blue-600 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <ChevronLeft 
+                className="w-6 h-6 text-gray-600 group-hover:text-blue-600 transition-colors duration-200"
+                strokeWidth={2}
+              />
             </Link>
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
@@ -100,9 +108,10 @@ export default function NewProductPage() {
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <Info 
+                  className="w-4 h-4 text-white"
+                  strokeWidth={2}
+                />
               </div>
               Basic Information
             </h2>
@@ -236,9 +245,10 @@ export default function NewProductPage() {
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-violet-600 rounded-lg flex items-center justify-center">
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
-                </svg>
+                <Ruler 
+                  className="w-4 h-4 text-white"
+                  strokeWidth={2}
+                />
               </div>
               Dimensions (Optional)
             </h2>
@@ -306,17 +316,18 @@ export default function NewProductPage() {
             >
               {isSubmitting ? (
                 <>
-                  <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
+                  <Loader2 
+                    className="animate-spin h-5 w-5"
+                    strokeWidth={2}
+                  />
                   Creating...
                 </>
               ) : (
                 <>
-                  <svg className="w-5 h-5 group-hover:rotate-12 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
+                  <Plus 
+                    className="w-5 h-5 group-hover:rotate-12 transition-transform duration-200"
+                    strokeWidth={2}
+                  />
                   Create Product
                 </>
               )}

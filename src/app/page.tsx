@@ -6,6 +6,14 @@ import { sampleProducts } from './lib/data/placeholders';
 import { utils } from './lib/data/utils';
 import { ProductCategory } from './lib/data/definitions';
 import { ProductGrid } from '../components/product';
+import { 
+  SearchIcon, 
+  PlusIcon, 
+  StatsIcon,
+  TrendingUpIcon,
+  PackageIcon,
+  CubeIcon
+} from '../components/icons';
 
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -44,9 +52,10 @@ export default function Dashboard() {
             href="/products/new"
             className="group relative inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white transition-all duration-200 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
-            <svg className="w-5 h-5 mr-2 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
+            <PlusIcon 
+              className="mr-2 transition-transform group-hover:rotate-90" 
+              size="md"
+            />
             New Item
           </Link>
         </div>
@@ -57,9 +66,10 @@ export default function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative flex items-center">
               <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
+                <CubeIcon 
+                  className="text-white" 
+                  size="md"
+                />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600 mb-1">Total Products</p>
@@ -72,9 +82,10 @@ export default function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative flex items-center">
               <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <TrendingUpIcon 
+                  className="text-white" 
+                  size="md"
+                />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600 mb-1">Active Products</p>
@@ -87,9 +98,10 @@ export default function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative flex items-center">
               <div className="p-3 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-xl shadow-lg">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                </svg>
+                <PackageIcon 
+                  className="text-white" 
+                  size="md"
+                />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600 mb-1">Low Stock</p>
@@ -102,9 +114,10 @@ export default function Dashboard() {
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <div className="relative flex items-center">
               <div className="p-3 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl shadow-lg">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                </svg>
+                <StatsIcon 
+                  className="text-white" 
+                  size="md"
+                />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600 mb-1">Total Value</p>
@@ -121,9 +134,10 @@ export default function Dashboard() {
               <label className="block text-sm font-semibold text-gray-700">Search</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
+                  <SearchIcon 
+                    className="text-gray-400" 
+                    size="md"
+                  />
                 </div>
                 <input
                   type="text"
