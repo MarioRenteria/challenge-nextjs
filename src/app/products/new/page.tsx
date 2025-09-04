@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CreateProductInput, ProductCategory } from '../../lib/data/definitions';
 import { generateCreateProductInput } from '../../lib/data/placeholders';
+import CurrencyInput from '../../../components/ui/CurrencyInput';
 
 export default function NewProductPage() {
   const router = useRouter();
@@ -27,11 +28,6 @@ export default function NewProductPage() {
       setFormData(prev => ({
         ...prev,
         tags
-      }));
-    } else if (name === 'priceCents') {
-      setFormData(prev => ({
-        ...prev,
-        priceCents: Math.round(parseFloat(value) * 100) || 0
       }));
     } else if (name.startsWith('dimensions.')) {
       const dimensionField = name.split('.')[1] as keyof NonNullable<typeof formData.dimensions>;
@@ -122,7 +118,7 @@ export default function NewProductPage() {
                   value={formData.name}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium"
                 />
               </div>
 
@@ -136,7 +132,7 @@ export default function NewProductPage() {
                   value={formData.sku}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
                 />
               </div>
 
@@ -149,7 +145,7 @@ export default function NewProductPage() {
                   value={formData.category}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50 appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-all duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium"
                 >
                   {categories.map((category) => (
                     <option key={category} value={category}>
@@ -163,21 +159,19 @@ export default function NewProductPage() {
                 <label className="block text-sm font-semibold text-gray-700">
                   Price (USD) *
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <span className="text-gray-500 text-sm">$</span>
-                  </div>
-                  <input
-                    type="number"
-                    name="priceCents"
-                    value={formData.priceCents / 100}
-                    onChange={handleInputChange}
-                    step="0.01"
-                    min="0"
-                    required
-                    className="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
-                  />
-                </div>
+                <CurrencyInput
+                  value={formData.priceCents}
+                  onChange={(cents: number) => {
+                    setFormData(prev => ({
+                      ...prev,
+                      priceCents: cents
+                    }));
+                  }}
+                  placeholder="0.00"
+                  required
+                  min={0}
+                  className="w-full"
+                />
               </div>
 
               <div className="space-y-2">
@@ -191,7 +185,7 @@ export default function NewProductPage() {
                   onChange={handleInputChange}
                   min="0"
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
                 />
               </div>
 
@@ -204,7 +198,7 @@ export default function NewProductPage() {
                   name="imageUrl"
                   value={formData.imageUrl}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
                 />
               </div>
             </div>
@@ -219,7 +213,7 @@ export default function NewProductPage() {
                 onChange={handleInputChange}
                 rows={3}
                 required
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50 resize-none"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 resize-none text-gray-800 font-medium"
               />
             </div>
 
@@ -233,7 +227,7 @@ export default function NewProductPage() {
                 value={formData.tags.join(', ')}
                 onChange={handleInputChange}
                 placeholder="e.g., wireless, bluetooth, audio"
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-all duration-200 bg-white/50"
               />
             </div>
           </div>
@@ -261,7 +255,7 @@ export default function NewProductPage() {
                   onChange={handleInputChange}
                   min="0"
                   step="0.1"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
                 />
               </div>
 
@@ -276,7 +270,7 @@ export default function NewProductPage() {
                   onChange={handleInputChange}
                   min="0"
                   step="0.1"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
                 />
               </div>
 
@@ -291,7 +285,7 @@ export default function NewProductPage() {
                   onChange={handleInputChange}
                   min="0"
                   step="0.1"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
                 />
               </div>
             </div>

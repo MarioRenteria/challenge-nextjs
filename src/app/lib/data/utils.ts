@@ -75,7 +75,7 @@ export const filterProducts = (products: Product[], filters: ProductFilters): Pr
  */
 export const sortProducts = (products: Product[], sortBy: 'name' | 'price' | 'rating' | 'createdAt' | 'updatedAt', order: 'asc' | 'desc' = 'asc'): Product[] => {
   return [...products].sort((a, b) => {
-    let aValue: any, bValue: any;
+    let aValue: string | number, bValue: string | number;
 
     switch (sortBy) {
       case 'name':
@@ -223,7 +223,7 @@ export const filterUsers = (users: User[], filters: UserFilters): User[] => {
  */
 export const sortUsers = (users: User[], sortBy: 'username' | 'fullName' | 'email' | 'createdAt' | 'lastLoginAt', order: 'asc' | 'desc' = 'asc'): User[] => {
   return [...users].sort((a, b) => {
-    let aValue: any, bValue: any;
+    let aValue: string | number, bValue: string | number;
 
     switch (sortBy) {
       case 'username':
@@ -406,7 +406,7 @@ export const deepClone = <T>(obj: T): T => {
 /**
  * Debounce function for search inputs
  */
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): ((...args: Parameters<T>) => void) => {

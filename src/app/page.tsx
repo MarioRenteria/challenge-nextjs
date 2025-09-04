@@ -4,7 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { sampleProducts } from './lib/data/placeholders';
 import { utils } from './lib/data/utils';
-import { Product, ProductCategory } from './lib/data/definitions';
+import { ProductCategory } from './lib/data/definitions';
+import { ProductGrid } from '../components/product';
 
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -129,7 +130,7 @@ export default function Dashboard() {
                   placeholder="Search products..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
                 />
               </div>
             </div>
@@ -138,7 +139,7 @@ export default function Dashboard() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value as ProductCategory | '')}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50 appearance-none cursor-pointer"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium"
               >
                 <option value="">All Categories</option>
                 {categories.map((category) => (
@@ -153,7 +154,7 @@ export default function Dashboard() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'rating' | 'createdAt')}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50 appearance-none cursor-pointer"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium"
               >
                 <option value="name">Name</option>
                 <option value="price">Price</option>
@@ -166,7 +167,7 @@ export default function Dashboard() {
               <select
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:font-semibold focus:text-gray-900 transition-all duration-200 bg-white/50 appearance-none cursor-pointer"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium"
               >
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>
@@ -183,83 +184,16 @@ export default function Dashboard() {
             </h2>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {sortedProducts.map((product) => (
-                <div key={product.id} className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-5 hover:shadow-xl transition-all duration-300 border border-gray-200/50 hover:border-blue-200/50 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  
-                  <div className="relative">
-                    <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl mb-4 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                      <svg className="w-12 h-12 text-gray-400 group-hover:text-blue-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    
-                    <div className="space-y-3">
-                      <div>
-                        <h3 className="font-bold text-gray-900 truncate text-lg group-hover:text-blue-600 transition-colors duration-300">{product.name}</h3>
-                        <p className="text-sm text-gray-600 font-medium">{product.category}</p>
-                        <p className="text-xs text-gray-500 font-mono">{product.sku}</p>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                          {utils.formatPrice(product.priceCents)}
-                        </span>
-                        <div className="flex items-center bg-yellow-50 px-2 py-1 rounded-lg">
-                          <svg className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                          <span className="ml-1 text-sm font-semibold text-gray-700">{product.rating}</span>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-                          product.stock <= 10 
-                            ? 'bg-red-100 text-red-700 border border-red-200' 
-                            : product.stock <= 20 
-                            ? 'bg-yellow-100 text-yellow-700 border border-yellow-200' 
-                            : 'bg-green-100 text-green-700 border border-green-200'
-                        }`}>
-                          {product.stock} in stock
-                        </span>
-                        <span className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-                          product.status === 'active' 
-                            ? 'bg-green-100 text-green-700 border border-green-200' 
-                            : 'bg-gray-100 text-gray-700 border border-gray-200'
-                        }`}>
-                          {product.status}
-                        </span>
-                      </div>
-                      
-                      <div className="flex flex-wrap gap-1.5">
-                        {product.tags.slice(0, 2).map((tag) => (
-                          <span key={tag} className="px-2.5 py-1 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 text-xs font-medium rounded-lg border border-blue-200">
-                            {tag}
-                          </span>
-                        ))}
-                        {product.tags.length > 2 && (
-                          <span className="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-lg border border-gray-200">
-                            +{product.tags.length - 2}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            {sortedProducts.length === 0 && (
-              <div className="text-center py-12">
-                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.57M15 6.334A7.96 7.96 0 0012 5c-2.34 0-4.29 1.009-5.824 2.57" />
-                </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No products found</h3>
-                <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria.</p>
-              </div>
-            )}
+            <ProductGrid
+              products={sortedProducts}
+              onProductClick={(product) => {
+                console.log('Product clicked:', product);
+                // Aquí puedes agregar lógica para navegar a la página de detalle del producto
+              }}
+              gridCols={4}
+              variant="default"
+              emptyMessage="Try adjusting your search or filter criteria."
+            />
           </div>
         </div>
       </div>
