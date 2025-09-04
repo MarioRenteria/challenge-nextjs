@@ -202,7 +202,6 @@ export default function Dashboard() {
               products={sortedProducts}
               onProductClick={(product) => {
                 console.log('Product clicked:', product);
-                // Aquí puedes agregar lógica para navegar a la página de detalle del producto
               }}
               gridCols={4}
               variant="default"
