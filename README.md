@@ -28,7 +28,6 @@ A modern, full-featured product management application built with Next.js, Redux
 ### 🎨 **User Experience**
 - ✅ **Modern UI design** with Tailwind CSS
 - ✅ **Responsive layout** for all device sizes
-- ✅ **Dark/light theme support** with beautiful gradients
 - ✅ **Smooth animations** and hover effects
 - ✅ **Form validation** in English with real-time error feedback
 
@@ -105,7 +104,6 @@ npm run test:coverage
 ### Test Coverage
 
 The testing suite includes:
-- ✅ **71 passing tests** covering core functionality
 - ✅ **Utils functions** (20 tests) - Data manipulation and calculations
 - ✅ **Redux state management** (11 tests) - CRUD operations and state
 - ✅ **Component testing** (10 tests) - ProductCard behavior and rendering
@@ -243,27 +241,9 @@ The project uses standard Next.js configuration. No additional environment varia
 - **Tailwind**: Configured with custom utilities
 - **Next.js**: App Router with TypeScript support
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
 ## 📝 License
 
 This project is open source and available under the [MIT License](LICENSE).
-
-## 🚀 Deployment
-
-The application is ready for deployment on platforms like:
-- **Vercel** (recommended for Next.js)
-- **Netlify**
-- **AWS Amplify**
-- **Railway**
-
-Simply connect your repository and the platform will automatically build and deploy your application.
 
 ---
 
