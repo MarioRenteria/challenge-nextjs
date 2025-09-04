@@ -1,36 +1,270 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 Product Management Dashboard
 
-## Getting Started
+A modern, full-featured product management application built with Next.js, Redux, and React. This dashboard allows you to manage products, visualize data with interactive charts, and maintain a comprehensive inventory system.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-15.5.2-black?style=flat-square&logo=next.js)
+![React](https://img.shields.io/badge/React-19.1.0-blue?style=flat-square&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)
+![Redux](https://img.shields.io/badge/Redux_Toolkit-2.9.0-purple?style=flat-square&logo=redux)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.x-teal?style=flat-square&logo=tailwindcss)
+![Jest](https://img.shields.io/badge/Jest-30.1.3-red?style=flat-square&logo=jest)
+
+## ✨ Features
+
+### 🏪 **Product Management**
+- ✅ **Add new products** with comprehensive form validation
+- ✅ **View product catalog** with beautiful card layouts
+- ✅ **Product details page** with full specifications
+- ✅ **Real-time stock management** with low stock warnings
+- ✅ **Category-based organization** (Electronics, Fitness, Home, Clothing, Books)
+- ✅ **Product images** with fallback handling
+
+### 📊 **Data Visualization**
+- ✅ **Interactive charts** using Recharts library
+- ✅ **Product analytics** by category, price range, and stock status
+- ✅ **Pie and bar charts** for different data representations
+- ✅ **Total value calculations** and inventory insights
+
+### 🎨 **User Experience**
+- ✅ **Modern UI design** with Tailwind CSS
+- ✅ **Responsive layout** for all device sizes
+- ✅ **Dark/light theme support** with beautiful gradients
+- ✅ **Smooth animations** and hover effects
+- ✅ **Form validation** in English with real-time error feedback
+
+### 🔧 **Technical Features**
+- ✅ **Redux state management** for centralized data
+- ✅ **TypeScript** for type safety
+- ✅ **Next.js App Router** with dynamic routing
+- ✅ **Custom currency input** component
+- ✅ **Comprehensive testing suite** with Jest + React Testing Library
+- ✅ **ESLint configuration** for code quality
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed on your machine:
+- **Node.js** (version 18.14.0 or higher)
+- **npm** (comes with Node.js)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd challenge-nextjs
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+### Development
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000) to view the application.
+
+The page will automatically reload when you make changes to the code.
+
+### Building for Production
+
+5. **Build the application**
+   ```bash
+   npm run build
+   ```
+
+6. **Start the production server**
+   ```bash
+   npm start
+   ```
+
+## 🧪 Testing
+
+This project includes a comprehensive testing suite covering all critical functionality.
+
+### Running Tests
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Run all tests
+npm test
+
+# Run tests in watch mode (for development)
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Test Coverage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The testing suite includes:
+- ✅ **71 passing tests** covering core functionality
+- ✅ **Utils functions** (20 tests) - Data manipulation and calculations
+- ✅ **Redux state management** (11 tests) - CRUD operations and state
+- ✅ **Component testing** (10 tests) - ProductCard behavior and rendering
+- ✅ **Chart components** (14 tests) - Data visualization logic
+- ✅ **Form validation** (9 tests) - Input validation and error handling
+- ✅ **Integration tests** (7 tests) - End-to-end user flows
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Test Files Structure
+```
+src/
+├── app/lib/data/__tests__/
+│   └── utils.test.ts                    # Utility functions
+├── store/slices/__tests__/
+│   └── productsSlice.test.ts           # Redux state management
+├── components/product/__tests__/
+│   └── ProductCard.test.tsx            # Product card component
+├── components/charts/__tests__/
+│   └── ProductCategoryChart.test.tsx   # Chart components
+└── app/products/new/__tests__/
+    └── page.simple.test.tsx            # Form validation
+```
 
-## Learn More
+## 📁 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+challenge-nextjs/
+├── public/                    # Static assets
+├── src/
+│   ├── app/                   # Next.js App Router
+│   │   ├── lib/data/         # Data utilities and definitions
+│   │   ├── products/         # Product-related pages
+│   │   ├── globals.css       # Global styles
+│   │   ├── layout.tsx        # Root layout
+│   │   └── page.tsx          # Dashboard homepage
+│   ├── components/           # Reusable components
+│   │   ├── charts/          # Chart components
+│   │   ├── icons/           # Icon components
+│   │   ├── product/         # Product-related components
+│   │   ├── providers/       # Context providers
+│   │   └── ui/              # UI components
+│   ├── store/               # Redux store configuration
+│   │   ├── slices/          # Redux slices
+│   │   ├── hooks.ts         # Typed Redux hooks
+│   │   └── index.ts         # Store configuration
+│   ├── types/               # TypeScript type definitions
+│   └── utils/               # Utility functions
+├── jest.config.js           # Jest configuration
+├── jest.setup.js            # Jest setup file
+├── next.config.ts           # Next.js configuration
+├── tailwind.config.ts       # Tailwind CSS configuration
+└── tsconfig.json            # TypeScript configuration
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### **Frontend Framework**
+- **Next.js 15.5.2** - React framework with App Router
+- **React 19.1.0** - User interface library
+- **TypeScript 5.x** - Type-safe JavaScript
 
-## Deploy on Vercel
+### **State Management**
+- **Redux Toolkit 2.9.0** - Predictable state container
+- **React Redux 9.2.0** - React bindings for Redux
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **Styling & UI**
+- **Tailwind CSS 4.x** - Utility-first CSS framework
+- **Lucide React 0.542.0** - Beautiful icon library
+- **Custom CSS** - Custom animations and styles
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### **Data Visualization**
+- **Recharts 3.1.2** - React charting library
+- **Custom chart components** - Pie charts, bar charts, tooltips
+
+### **Development & Testing**
+- **Jest 30.1.3** - JavaScript testing framework
+- **React Testing Library 16.3.0** - Testing utilities for React
+- **Jest DOM** - Custom Jest matchers for DOM testing
+- **User Event** - Simulate user interactions in tests
+
+### **Code Quality**
+- **ESLint** - JavaScript/TypeScript linting
+- **Next.js ESLint Config** - Optimized rules for Next.js
+
+## 📊 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server on port 3000 |
+| `npm run build` | Build the application for production |
+| `npm start` | Start the production server |
+| `npm run lint` | Run ESLint to check code quality |
+| `npm test` | Run the test suite |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run test:coverage` | Run tests with coverage report |
+
+## 🎯 Key Features Breakdown
+
+### **Product Management**
+- **Add Products**: Comprehensive form with validation in English
+- **Product Cards**: Beautiful responsive cards with images
+- **Product Details**: Dedicated pages for each product
+- **Stock Management**: Visual indicators for stock levels
+- **Categories**: Organized by Electronics, Fitness, Home, Clothing, Books
+
+### **Dashboard Analytics**
+- **Category Distribution**: Pie charts showing product distribution
+- **Price Range Analysis**: Products grouped by price ranges
+- **Stock Status**: Visual representation of inventory levels
+- **Total Value**: Calculate total inventory value
+
+### **Form Validation**
+- **Real-time validation**: Errors appear/disappear as you type
+- **English messages**: All validation messages in English
+- **Required fields**: Name, SKU, description, price, stock
+- **Data validation**: Price > 0, stock ≥ 0, proper formatting
+
+### **Data Visualization**
+- **Interactive charts**: Hover effects and tooltips
+- **Multiple chart types**: Pie charts and bar charts
+- **Responsive design**: Charts adapt to container size
+- **No data states**: Graceful handling of empty data
+
+## 🔧 Configuration
+
+### **Environment Setup**
+The project uses standard Next.js configuration. No additional environment variables are required for basic functionality.
+
+### **Testing Configuration**
+- **Jest**: Configured for Next.js with TypeScript support
+- **Mocks**: Next.js router and Recharts components mocked for testing
+- **Coverage**: HTML and text coverage reports available
+
+### **Build Configuration**
+- **TypeScript**: Strict mode enabled
+- **Tailwind**: Configured with custom utilities
+- **Next.js**: App Router with TypeScript support
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🚀 Deployment
+
+The application is ready for deployment on platforms like:
+- **Vercel** (recommended for Next.js)
+- **Netlify**
+- **AWS Amplify**
+- **Railway**
+
+Simply connect your repository and the platform will automatically build and deploy your application.
+
+---
+
+Built with ❤️ using Next.js, Redux, and TypeScript
