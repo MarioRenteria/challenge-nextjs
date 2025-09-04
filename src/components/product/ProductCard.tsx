@@ -1,9 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { ProductCardProps } from '../../types/product';
 import { formatPrice } from '../../app/lib/utils';
-import { ProductImageIcon, StarIcon } from '../icons';
+import { StarIcon } from '../icons';
 
 const ProductCard = ({
   product,
@@ -62,12 +63,12 @@ const ProductCard = ({
       
       <div className="relative">
         {/* Product Image */}
-        <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl mb-4 overflow-hidden group-hover:scale-105 transition-transform duration-300">
-          <img 
+        <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl mb-4 overflow-hidden group-hover:scale-105 transition-transform duration-300 relative">
+          <Image 
             src={product.imageUrl} 
             alt={product.name}
-            className="w-full h-full object-cover loading-lazy"
-            loading="lazy"
+            fill
+            className="object-cover"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               // Intentar con un ID diferente si falla

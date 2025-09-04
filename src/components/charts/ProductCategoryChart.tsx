@@ -122,7 +122,7 @@ export default function ProductCategoryChart({ products, type = 'pie', dataType 
   const chartData = getChartData();
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<{ name: string; value: number; }> }) => {
     if (active && payload && payload.length) {
       const data = payload[0];
       

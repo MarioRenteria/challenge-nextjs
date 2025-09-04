@@ -1,14 +1,13 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAppSelector } from '../../../store/hooks';
 import { formatPrice } from '../../lib/utils';
 import { 
   ChevronLeft,
   Package,
-  DollarSign,
-  Warehouse,
   Calendar,
   Tag,
   Ruler,
@@ -19,7 +18,6 @@ import {
 
 export default function ProductDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const productId = params.id as string;
 
   // Get product from Redux store
@@ -33,7 +31,7 @@ export default function ProductDetailPage() {
         <div className="text-center">
           <div className="text-6xl mb-4">📦</div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h1>
-          <p className="text-gray-600 mb-6">The product you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-6">The product you&apos;re looking for doesn&apos;t exist.</p>
           <Link
             href="/"
             className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-semibold"
@@ -100,11 +98,12 @@ export default function ProductDetailPage() {
           {/* Product Image */}
           <div className="lg:col-span-1">
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
-              <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden mb-4">
-                <img 
+              <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden mb-4 relative">
+                <Image 
                   src={product.imageUrl} 
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';

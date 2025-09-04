@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { useRouter } from 'next/navigation';
 import ProductCard from '../ProductCard';
 import { Product } from '../../../app/lib/data/definitions';
 
@@ -47,7 +46,8 @@ describe('ProductCard', () => {
     render(<ProductCard product={mockProduct} />);
 
     const image = screen.getByRole('img');
-    expect(image).toHaveAttribute('src', 'https://test-image.com/test.jpg');
+    // Next.js Image component optimizes the src URL, so we check if it contains our original URL
+    expect(image.getAttribute('src')).toContain('https%3A%2F%2Ftest-image.com%2Ftest.jpg');
     expect(image).toHaveAttribute('alt', 'Test Product');
   });
 
