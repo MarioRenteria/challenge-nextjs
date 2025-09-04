@@ -24,3 +24,52 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Custom placeholder styles for form inputs */
+::placeholder {
+  color: #9ca3af !important; /* Tailwind gray-400 */
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+::-webkit-input-placeholder {
+  color: #9ca3af !important;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+::-moz-placeholder {
+  color: #9ca3af !important;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+:-ms-input-placeholder {
+  color: #9ca3af !important;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+:-moz-placeholder {
+  color: #9ca3af !important;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* Focused state placeholder */
+input:focus::placeholder,
+textarea:focus::placeholder {
+  color: #d1d5db !important; /* Tailwind gray-300 */
+  opacity: 0.5;
+}
+
+/* Custom styles for number inputs to prevent spinner styling issues */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}

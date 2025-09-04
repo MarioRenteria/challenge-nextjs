@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { sampleProducts } from './lib/data/placeholders';
 import { utils } from './lib/data/utils';
 import { ProductCategory } from './lib/data/definitions';
 import { ProductGrid } from '../components/product';
+import { ProductCategoryChart } from '../components/charts';
+import { useAppSelector } from '../store/hooks';
 import { 
   SearchIcon, 
   PlusIcon, 
@@ -21,11 +22,14 @@ export default function Dashboard() {
   const [sortBy, setSortBy] = useState<'name' | 'price' | 'rating' | 'createdAt'>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
+  // Get products from Redux store
+  const products = useAppSelector((state) => state.products.products);
+
   // Get unique categories
-  const categories = utils.getUniqueCategories(sampleProducts);
+  const categories = utils.getUniqueCategories(products);
 
   // Filter and sort products
-  const filteredProducts = utils.filterProducts(sampleProducts, {
+  const filteredProducts = utils.filterProducts(products, {
     search: searchTerm,
     category: selectedCategory || undefined,
   });
@@ -33,9 +37,9 @@ export default function Dashboard() {
   const sortedProducts = utils.sortProducts(filteredProducts, sortBy, sortOrder);
 
   // Calculate stats
-  const totalValue = utils.calculateTotalValue(sampleProducts);
-  const lowStockProducts = utils.getLowStockProducts(sampleProducts, 20);
-  const activeProducts = utils.getProductsByStatus(sampleProducts, 'active');
+  const totalValue = utils.calculateTotalValue(products);
+  const lowStockProducts = utils.getLowStockProducts(products, 20);
+  const activeProducts = utils.getProductsByStatus(products, 'active');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
@@ -73,7 +77,7 @@ export default function Dashboard() {
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600 mb-1">Total Products</p>
-                <p className="text-3xl font-bold text-gray-900">{sampleProducts.length}</p>
+                <p className="text-3xl font-bold text-gray-900">{products.length}</p>
               </div>
             </div>
           </div>
@@ -124,6 +128,57 @@ export default function Dashboard() {
                 <p className="text-3xl font-bold text-gray-900">{utils.formatPrice(totalValue)}</p>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Analytics Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+          {/* Category Distribution Chart */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Products by Category</h3>
+              <p className="text-sm text-gray-600">Distribution of products across different categories</p>
+            </div>
+            <ProductCategoryChart products={products} type="pie" dataType="category" />
+          </div>
+
+          {/* Price Range Distribution */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Price Distribution</h3>
+              <p className="text-sm text-gray-600">Products grouped by price ranges</p>
+            </div>
+            <ProductCategoryChart products={products} type="pie" dataType="priceRange" />
+          </div>
+
+          {/* Stock Status */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Stock Status</h3>
+              <p className="text-sm text-gray-600">Inventory levels across all products</p>
+            </div>
+            <ProductCategoryChart products={products} type="pie" dataType="stockStatus" />
+          </div>
+        </div>
+
+        {/* Additional Analytics */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          {/* Category Value Bar Chart */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Total Value by Category</h3>
+              <p className="text-sm text-gray-600">Total inventory value per category (price × stock)</p>
+            </div>
+            <ProductCategoryChart products={products} type="bar" dataType="categoryValue" />
+          </div>
+
+          {/* Category Overview Bar Chart */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Category Overview</h3>
+              <p className="text-sm text-gray-600">Product count comparison by category</p>
+            </div>
+            <ProductCategoryChart products={products} type="bar" dataType="category" />
           </div>
         </div>
 
@@ -200,9 +255,6 @@ export default function Dashboard() {
           <div className="p-6">
             <ProductGrid
               products={sortedProducts}
-              onProductClick={(product) => {
-                console.log('Product clicked:', product);
-              }}
               gridCols={4}
               variant="default"
               emptyMessage="Try adjusting your search or filter criteria."

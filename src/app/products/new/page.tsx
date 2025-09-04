@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { CreateProductInput, ProductCategory } from '../../lib/data/definitions';
 import { generateCreateProductInput } from '../../lib/data/placeholders';
 import CurrencyInput from '../../../components/ui/CurrencyInput';
+import { useAppDispatch } from '../../../store/hooks';
+import { addProduct } from '../../../store/slices/productsSlice';
 import { 
   ChevronLeft,
   Info,
@@ -16,13 +18,62 @@ import {
 
 export default function NewProductPage() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<CreateProductInput>(() => generateCreateProductInput());
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
 
   const categories: ProductCategory[] = ['Electronics', 'Fitness', 'Home', 'Clothing', 'Books'];
 
+  const validateForm = (): boolean => {
+    const newErrors: {[key: string]: string} = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Product name is required';
+    }
+
+    if (!formData.sku.trim()) {
+      newErrors.sku = 'SKU is required';
+    }
+
+    if (!formData.description.trim()) {
+      newErrors.description = 'Description is required';
+    }
+
+    if (formData.priceCents <= 0) {
+      newErrors.price = 'Price must be greater than 0';
+    }
+
+    if (formData.stock < 0) {
+      newErrors.stock = 'Stock cannot be negative';
+    }
+
+    if (formData.stock === 0 || formData.stock === null || formData.stock === undefined) {
+      newErrors.stock = 'Stock quantity is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+    
+    // Clear stock error specifically for number inputs
+    if (name === 'stock' && errors.stock) {
+      setErrors(prev => ({
+        ...prev,
+        stock: ''
+      }));
+    }
     
     if (type === 'checkbox') {
       const checked = (e.target as HTMLInputElement).checked;
@@ -57,22 +108,27 @@ export default function NewProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form before submitting
+    if (!validateForm()) {
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      console.log('New product data:', formData);
+      // Add product to Redux store
+      dispatch(addProduct(formData));
       
-      // Show success message (you can replace this with a toast notification)
-      alert('Product created successfully!');
+      console.log('New product added to store:', formData);
       
       // Redirect back to dashboard
       router.push('/');
     } catch (error) {
       console.error('Error creating product:', error);
-      alert('Error creating product. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -126,9 +182,14 @@ export default function NewProductPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium"
+                  placeholder="e.g., Wireless Bluetooth Headphones"
+                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 appearance-none cursor-pointer text-gray-800 font-medium ${
+                    errors.name ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:ring-blue-500'
+                  }`}
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-sm font-medium">{errors.name}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -140,9 +201,14 @@ export default function NewProductPage() {
                   name="sku"
                   value={formData.sku}
                   onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
+                  placeholder="e.g., ELEC-001"
+                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium ${
+                    errors.sku ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:ring-blue-500'
+                  }`}
                 />
+                {errors.sku && (
+                  <p className="text-red-500 text-sm font-medium">{errors.sku}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -171,16 +237,22 @@ export default function NewProductPage() {
                 <CurrencyInput
                   value={formData.priceCents}
                   onChange={(cents: number) => {
+                    // Clear price error when user changes value
+                    if (errors.price) {
+                      setErrors(prev => ({ ...prev, price: '' }));
+                    }
                     setFormData(prev => ({
                       ...prev,
                       priceCents: cents
                     }));
                   }}
                   placeholder="0.00"
-                  required
                   min={0}
-                  className="w-full"
+                  className={`w-full ${errors.price ? 'border-red-500' : ''}`}
                 />
+                {errors.price && (
+                  <p className="text-red-500 text-sm font-medium">{errors.price}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -190,26 +262,19 @@ export default function NewProductPage() {
                 <input
                   type="number"
                   name="stock"
-                  value={formData.stock}
+                  value={formData.stock || ''}
                   onChange={handleInputChange}
+                  placeholder="e.g., 50"
                   min="0"
-                  required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
+                  className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium ${
+                    errors.stock ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:ring-blue-500'
+                  }`}
                 />
+                {errors.stock && (
+                  <p className="text-red-500 text-sm font-medium">{errors.stock}</p>
+                )}
               </div>
 
-              <div className="space-y-2">
-                <label className="block text-sm font-semibold text-gray-700">
-                  Image URL
-                </label>
-                <input
-                  type="url"
-                  name="imageUrl"
-                  value={formData.imageUrl}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
-                />
-              </div>
             </div>
 
             <div className="mt-6 space-y-2">
@@ -220,10 +285,15 @@ export default function NewProductPage() {
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
+                placeholder="e.g., High-quality wireless headphones with noise cancellation and 30-hour battery life."
                 rows={3}
-                required
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 resize-none text-gray-800 font-medium"
+                className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 resize-none text-gray-800 font-medium ${
+                  errors.description ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:ring-blue-500'
+                }`}
               />
+              {errors.description && (
+                <p className="text-red-500 text-sm font-medium">{errors.description}</p>
+              )}
             </div>
 
             <div className="mt-6 space-y-2">
@@ -263,6 +333,7 @@ export default function NewProductPage() {
                   name="dimensions.widthCm"
                   value={formData.dimensions?.widthCm || ''}
                   onChange={handleInputChange}
+                  placeholder="e.g., 18.5"
                   min="0"
                   step="0.1"
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
@@ -278,6 +349,7 @@ export default function NewProductPage() {
                   name="dimensions.heightCm"
                   value={formData.dimensions?.heightCm || ''}
                   onChange={handleInputChange}
+                  placeholder="e.g., 20.0"
                   min="0"
                   step="0.1"
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"
@@ -293,6 +365,7 @@ export default function NewProductPage() {
                   name="dimensions.depthCm"
                   value={formData.dimensions?.depthCm || ''}
                   onChange={handleInputChange}
+                  placeholder="e.g., 8.0"
                   min="0"
                   step="0.1"
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white focus:text-gray-900 transition-[background-color,border-color,box-shadow] duration-200 bg-white/50 text-gray-800 font-medium"

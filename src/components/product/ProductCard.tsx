@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { ProductCardProps } from '../../types/product';
 import { formatPrice } from '../../app/lib/data/utils';
 import { ProductImageIcon, StarIcon } from '../icons';
@@ -10,8 +11,15 @@ const ProductCard = ({
   className = '',
   variant = 'default'
 }: ProductCardProps) => {
+  const router = useRouter();
+
   const handleClick = () => {
-    onClick?.(product);
+    // If there's a custom onClick handler, use it, otherwise navigate to detail page
+    if (onClick) {
+      onClick(product);
+    } else {
+      router.push(`/products/${product.id}`);
+    }
   };
 
   const getVariantClasses = () => {
@@ -54,10 +62,31 @@ const ProductCard = ({
       
       <div className="relative">
         {/* Product Image */}
-        <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl mb-4 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-          <ProductImageIcon 
-            className="text-gray-400 group-hover:text-blue-500 transition-colors duration-300"
-            size={variant === 'compact' ? 'lg' : variant === 'detailed' ? 'xl' : 'xl'}
+        <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl mb-4 overflow-hidden group-hover:scale-105 transition-transform duration-300">
+          <img 
+            src={product.imageUrl} 
+            alt={product.name}
+            className="w-full h-full object-cover loading-lazy"
+            loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              // Intentar con un ID diferente si falla
+              const fallbackUrl = `https://picsum.photos/400/400?random=${Math.floor(Math.random() * 1000) + 3000}`;
+              if (!target.dataset.fallbackAttempted) {
+                target.dataset.fallbackAttempted = 'true';
+                target.src = fallbackUrl;
+              } else {
+                // Si el fallback también falla, mostrar icono
+                target.style.display = 'none';
+                if (target.parentElement) {
+                  target.parentElement.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50">
+                      <div class="text-blue-400 text-6xl opacity-50">📦</div>
+                    </div>
+                  `;
+                }
+              }
+            }}
           />
         </div>
         

@@ -39,7 +39,7 @@ export const sampleProducts: Product[] = [
     updatedAt: generateDateString(5),
     description: "High-quality wireless headphones with noise cancellation and 30-hour battery life.",
     dimensions: { widthCm: 18, heightCm: 20, depthCm: 8 },
-    imageUrl: "/images/products/wireless-headphones.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1001"
   },
   {
     id: "p-002",
@@ -55,7 +55,7 @@ export const sampleProducts: Product[] = [
     updatedAt: generateDateString(3),
     description: "Space-saving adjustable dumbbell system with quick-change plates.",
     dimensions: { widthCm: 40, heightCm: 18, depthCm: 18 },
-    imageUrl: "/images/products/adjustable-dumbbell.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1101"
   },
   {
     id: "p-003",
@@ -70,7 +70,7 @@ export const sampleProducts: Product[] = [
     createdAt: generateDateString(20),
     updatedAt: generateDateString(1),
     description: "Wi-Fi enabled LED bulb with app control and voice assistant compatibility.",
-    imageUrl: "/images/products/smart-led-bulb.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1201"
   },
   {
     id: "p-004",
@@ -86,7 +86,7 @@ export const sampleProducts: Product[] = [
     updatedAt: generateDateString(10),
     description: "Double-wall insulated bottle that keeps drinks cold for 24 hours.",
     dimensions: { widthCm: 8, heightCm: 29, depthCm: 8 },
-    imageUrl: "/images/products/steel-bottle.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1202"
   },
   {
     id: "p-005",
@@ -101,7 +101,7 @@ export const sampleProducts: Product[] = [
     createdAt: generateDateString(35),
     updatedAt: generateDateString(8),
     description: "Premium non-slip yoga mat with high-density cushioning and alignment lines.",
-    imageUrl: "/images/products/yoga-mat.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1102"
   },
   {
     id: "p-006",
@@ -117,7 +117,7 @@ export const sampleProducts: Product[] = [
     updatedAt: generateDateString(3),
     description: "High-performance mechanical gaming keyboard with RGB backlighting and tactile switches.",
     dimensions: { widthCm: 45, heightCm: 15, depthCm: 3 },
-    imageUrl: "/images/products/gaming-keyboard.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1002"
   },
   {
     id: "p-007",
@@ -132,7 +132,7 @@ export const sampleProducts: Product[] = [
     createdAt: generateDateString(60),
     updatedAt: generateDateString(15),
     description: "Premium organic green tea leaves sourced from high-altitude gardens.",
-    imageUrl: "/images/products/green-tea.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1501"
   },
   {
     id: "p-008",
@@ -148,7 +148,7 @@ export const sampleProducts: Product[] = [
     updatedAt: generateDateString(12),
     description: "Fast wireless charging pad compatible with all Qi-enabled devices.",
     dimensions: { widthCm: 10, heightCm: 10, depthCm: 1 },
-    imageUrl: "/images/products/wireless-charger.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1003"
   },
   {
     id: "p-009",
@@ -163,7 +163,7 @@ export const sampleProducts: Product[] = [
     createdAt: generateDateString(20),
     updatedAt: generateDateString(5),
     description: "Complete set of resistance bands for full-body workouts at home or gym.",
-    imageUrl: "/images/products/resistance-bands.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1103"
   },
   {
     id: "p-010",
@@ -179,7 +179,7 @@ export const sampleProducts: Product[] = [
     updatedAt: generateDateString(2),
     description: "Portable Bluetooth speaker with IPX7 waterproof rating and 12-hour battery life.",
     dimensions: { widthCm: 15, heightCm: 8, depthCm: 8 },
-    imageUrl: "/images/products/bluetooth-speaker.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1004"
   },
   {
     id: "p-011",
@@ -194,7 +194,7 @@ export const sampleProducts: Product[] = [
     createdAt: generateDateString(50),
     updatedAt: generateDateString(7),
     description: "High-quality whey protein powder with vanilla flavor, perfect for post-workout recovery.",
-    imageUrl: "/images/products/protein-powder.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1502"
   },
   {
     id: "p-012",
@@ -210,7 +210,7 @@ export const sampleProducts: Product[] = [
     updatedAt: generateDateString(4),
     description: "Advanced smartwatch with heart rate monitoring, GPS, and 7-day battery life.",
     dimensions: { widthCm: 4, heightCm: 4, depthCm: 1 },
-    imageUrl: "/images/products/smartwatch.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1005"
   },
   {
     id: "p-013",
@@ -225,7 +225,7 @@ export const sampleProducts: Product[] = [
     createdAt: generateDateString(40),
     updatedAt: generateDateString(9),
     description: "Premium essential oils set with lavender, eucalyptus, peppermint, and more.",
-    imageUrl: "/images/products/essential-oils.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1601"
   },
   {
     id: "p-014",
@@ -241,7 +241,7 @@ export const sampleProducts: Product[] = [
     updatedAt: generateDateString(6),
     description: "High-precision gaming mouse with RGB lighting and customizable DPI settings.",
     dimensions: { widthCm: 12, heightCm: 6, depthCm: 4 },
-    imageUrl: "/images/products/gaming-mouse.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1006"
   },
   {
     id: "p-015",
@@ -257,7 +257,7 @@ export const sampleProducts: Product[] = [
     updatedAt: generateDateString(1),
     description: "Comfortable meditation cushion set with buckwheat hull filling for optimal support.",
     dimensions: { widthCm: 35, heightCm: 15, depthCm: 35 },
-    imageUrl: "/images/products/meditation-cushion.jpg"
+    imageUrl: "https://picsum.photos/400/400?random=1602"
   }
 ];
 
@@ -322,16 +322,42 @@ export const sampleUsers: User[] = [
 ];
 
 // Placeholder data generators for forms
+// Genera URLs de imágenes orientadas a productos usando placeholders más confiables
+export const generateFakeImageUrl = (width: number = 400, height: number = 400, category?: string): string => {
+  // IDs específicos para cada categoría que generan imágenes consistentes
+  const categoryIds: { [key: string]: number[] } = {
+    'Electronics': [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010],
+    'Fitness': [1101, 1102, 1103, 1104, 1105, 1106, 1107, 1108, 1109, 1110],
+    'Home': [1201, 1202, 1203, 1204, 1205, 1206, 1207, 1208, 1209, 1210],
+    'Clothing': [1301, 1302, 1303, 1304, 1305, 1306, 1307, 1308, 1309, 1310],
+    'Books': [1401, 1402, 1403, 1404, 1405, 1406, 1407, 1408, 1409, 1410],
+    'Food & Beverages': [1501, 1502, 1503, 1504, 1505, 1506, 1507, 1508, 1509, 1510],
+    'Health & Wellness': [1601, 1602, 1603, 1604, 1605, 1606, 1607, 1608, 1609, 1610]
+  };
+  
+  let imageId: number;
+  
+  if (category && categoryIds[category]) {
+    const ids = categoryIds[category];
+    imageId = ids[Math.floor(Math.random() * ids.length)];
+  } else {
+    // ID aleatorio para productos genéricos
+    imageId = Math.floor(Math.random() * 100) + 2000;
+  }
+  
+  return `https://picsum.photos/${width}/${height}?random=${imageId}`;
+};
+
 export const generateCreateProductInput = (): CreateProductInput => ({
-  name: "New Product",
-  sku: generateSku("Electronics"),
+  name: "",
+  sku: "",
   category: "Electronics",
-  priceCents: 9999,
-  stock: 10,
-  tags: ["new", "featured"],
-  description: "Description for the new product",
-  dimensions: generateProductDimensions(),
-  imageUrl: "/images/products/placeholder.jpg"
+  priceCents: 0,
+  stock: 0,
+  tags: [],
+  description: "",
+  dimensions: undefined,
+  imageUrl: ""
 });
 
 export const generateCreateUserInput = (): CreateUserInput => ({
